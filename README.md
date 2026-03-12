@@ -79,10 +79,10 @@ Before deploying, replace the following placeholders with real client data:
 
 | Placeholder | Replace With |
 |-------------|-------------|
-| `+91 9XXXXXXXXX` | Client's phone number |
+| `+91 81493 88788` | Client's phone number |
 | `info@housematerealtors.com` | Client's email |
 | `Pune, Maharashtra 411045` | Exact office address |
-| WhatsApp `919XXXXXXXXX` | Client's WhatsApp number |
+| WhatsApp `918149388788` | Client's WhatsApp number |
 | Team photos/names | Real headshots and names |
 | Property listings | Real property data and photos |
 | Client testimonials | Real testimonials |

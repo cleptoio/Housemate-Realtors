@@ -1,6 +1,6 @@
 /* ============================================
-   HOUSEMATE REALTORS — INTERACTIONS
-   Enterprise-Grade Real Estate Website
+   HOUSEMATE REALTORS — PREMIUM INTERACTIONS
+   Inspired by maman-corp.com
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,23 +13,41 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initScrollProgress();
   initCardTilt();
+  initTextReveal();
+  initMagneticButtons();
+  initSectionIndicator();
 });
 
-/* ── Preloader ────────────────────────── */
+/* ── Premium Preloader (Maman-style %) ──── */
 function initPreloader() {
   const preloader = document.querySelector('.preloader');
+  const counter = document.querySelector('.preloader__counter');
+  const tagline = document.querySelector('.preloader__tagline');
   if (!preloader) return;
 
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      preloader.classList.add('loaded');
-    }, 600);
-  });
+  let count = 0;
+  const interval = setInterval(() => {
+    count += Math.floor(Math.random() * 8) + 2;
+    if (count > 100) count = 100;
+    if (counter) counter.textContent = count;
 
-  // Fallback: remove after 3s even if load event doesn't fire
+    if (count >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        preloader.classList.add('loaded');
+        document.body.classList.add('page-loaded');
+      }, 400);
+    }
+  }, 50);
+
+  // Fallback
   setTimeout(() => {
-    preloader.classList.add('loaded');
-  }, 3000);
+    if (!preloader.classList.contains('loaded')) {
+      if (counter) counter.textContent = '100';
+      preloader.classList.add('loaded');
+      document.body.classList.add('page-loaded');
+    }
+  }, 4000);
 }
 
 /* ── Scroll Progress Bar ──────────────── */
@@ -50,12 +68,24 @@ function initNavbar() {
   const navbar = document.querySelector('.navbar');
   if (!navbar) return;
 
+  let lastScroll = 0;
+
   const onScroll = () => {
-    if (window.scrollY > 60) {
+    const currentScroll = window.scrollY;
+
+    if (currentScroll > 60) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
+
+    // Auto-hide on scroll down, show on scroll up
+    if (currentScroll > lastScroll && currentScroll > 300) {
+      navbar.classList.add('nav-hidden');
+    } else {
+      navbar.classList.remove('nav-hidden');
+    }
+    lastScroll = currentScroll;
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -85,7 +115,6 @@ function initMobileMenu() {
     document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
   });
 
-  // Close on link click
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
@@ -94,7 +123,6 @@ function initMobileMenu() {
     });
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navLinks.classList.contains('open')) {
       hamburger.classList.remove('active');
@@ -102,6 +130,31 @@ function initMobileMenu() {
       document.body.style.overflow = '';
     }
   });
+}
+
+/* ── Text Mask Reveal (Maman-style) ────── */
+function initTextReveal() {
+  const revealTexts = document.querySelectorAll('.text-reveal');
+  if (!revealTexts.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const lines = entry.target.querySelectorAll('.text-reveal__line');
+          lines.forEach((line, i) => {
+            setTimeout(() => {
+              line.classList.add('revealed');
+            }, i * 150);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  revealTexts.forEach(el => observer.observe(el));
 }
 
 /* ── Scroll Reveal (IntersectionObserver) ── */
@@ -115,7 +168,6 @@ function initScrollReveal() {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
 
-          // If parent has stagger class, reveal children
           if (entry.target.classList.contains('stagger')) {
             const children = entry.target.children;
             Array.from(children).forEach((child, i) => {
@@ -136,11 +188,8 @@ function initScrollReveal() {
   );
 
   revealElements.forEach(el => observer.observe(el));
-
-  // Also observe stagger containers
   document.querySelectorAll('.stagger').forEach(el => observer.observe(el));
 
-  // Observe individual children of stagger for their own reveal
   document.querySelectorAll('.stagger > *').forEach(el => {
     if (!el.classList.contains('reveal') && !el.classList.contains('reveal-scale')) {
       el.classList.add('reveal');
@@ -178,8 +227,6 @@ function animateCounter(el) {
   function update(currentTime) {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
-
-    // Ease out cubic
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = Math.round(eased * target);
 
@@ -220,13 +267,11 @@ function initContactForm() {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Gather form data
     const name = form.querySelector('#name')?.value || '';
     const phone = form.querySelector('#phone')?.value || '';
     const service = form.querySelector('#service')?.value || '';
     const message = form.querySelector('#message')?.value || '';
 
-    // Build WhatsApp message
     const waMessage = encodeURIComponent(
       `Hello Housemate Realtors! 🏠\n\n` +
       `*Name:* ${name}\n` +
@@ -236,11 +281,9 @@ function initContactForm() {
       `I'd like to discuss my property needs.`
     );
 
-    // Open WhatsApp with pre-filled message
-    const waUrl = `https://wa.me/919XXXXXXXXX?text=${waMessage}`;
+    const waUrl = `https://wa.me/918149388788?text=${waMessage}`;
     window.open(waUrl, '_blank');
 
-    // Show success feedback
     showFormSuccess(form);
   });
 }
@@ -265,7 +308,7 @@ function showFormSuccess(form) {
   }, 3000);
 }
 
-/* ── Enhanced Parallax Effect ──────────── */
+/* ── Enhanced Parallax ────────────────── */
 window.addEventListener('scroll', () => {
   const heroes = document.querySelectorAll('.hero__bg img');
   heroes.forEach(img => {
@@ -274,13 +317,30 @@ window.addEventListener('scroll', () => {
     img.style.transform = `scale(1.05) translateY(${yPos}px)`;
   });
 
-  // Parallax for particles too
   const particles = document.querySelector('.hero__particles');
   if (particles) {
-    const pSpeed = 0.15;
-    particles.style.transform = `translateY(${window.scrollY * pSpeed}px)`;
+    particles.style.transform = `translateY(${window.scrollY * 0.15}px)`;
   }
 }, { passive: true });
+
+/* ── Magnetic Buttons (Maman-style) ────── */
+function initMagneticButtons() {
+  const buttons = document.querySelectorAll('.btn--primary, .btn--whatsapp, .navbar__cta');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+}
 
 /* ── 3D Card Tilt Effect ──────────────── */
 function initCardTilt() {
@@ -294,19 +354,45 @@ function initCardTilt() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = (y - centerY) / centerY * -5;
-      const rotateY = (x - centerX) / centerX * 5;
+      const rotateX = (y - centerY) / centerY * -4;
+      const rotateY = (x - centerX) / centerX * 4;
 
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
     });
 
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
+      card.style.transition = 'transform 0.5s ease';
+      setTimeout(() => { card.style.transition = ''; }, 500);
     });
   });
 }
 
-/* ── Testimonial Auto-Scroll (if carousel exists) ── */
+/* ── Section Progress Indicator ────────── */
+function initSectionIndicator() {
+  const indicator = document.querySelector('.section-indicator');
+  if (!indicator) return;
+
+  const sections = document.querySelectorAll('section');
+  const totalSections = sections.length;
+  const currentEl = indicator.querySelector('.section-indicator__current');
+  const totalEl = indicator.querySelector('.section-indicator__total');
+
+  if (totalEl) totalEl.textContent = String(totalSections).padStart(2, '0');
+
+  window.addEventListener('scroll', () => {
+    let currentSection = 1;
+    sections.forEach((section, i) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top < window.innerHeight / 2) {
+        currentSection = i + 1;
+      }
+    });
+    if (currentEl) currentEl.textContent = String(currentSection).padStart(2, '0');
+  }, { passive: true });
+}
+
+/* ── Testimonial Auto-Scroll ──────────── */
 function initTestimonialCarousel() {
   const track = document.querySelector('.testimonials-track');
   if (!track) return;
