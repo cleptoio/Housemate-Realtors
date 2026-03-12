@@ -13,14 +13,6 @@
 
 <body>
 
-    <!-- Preloader (Maman-style) -->
-    <div class="preloader">
-        <img src="assets/images/logo.png" alt="" class="preloader__logo">
-        <div class="preloader__counter">0</div>
-        <div class="preloader__tagline">QUALITY IS OUR STANDARD</div>
-        <div class="preloader__bar"></div>
-    </div>
-
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress"></div>
 
@@ -74,7 +66,9 @@
                         the form below and we'll get back to you within 24 hours. Or reach us instantly via WhatsApp.
                     </p>
 
-                    <form id="contact-form">
+                    <form id="contact-form" action="https://formsubmit.co/info@housematerealtors.com" method="POST">
+                        <input type="hidden" name="_next" value="https://housematerealtors.com/contact.html">
+                        <input type="hidden" name="_captcha" value="false">
                         <div class="form-group">
                             <label for="name">Full Name *</label>
                             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
