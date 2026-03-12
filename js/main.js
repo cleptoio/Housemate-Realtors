@@ -4,13 +4,46 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
   initNavbar();
   initScrollReveal();
   initCounters();
   initSmoothScroll();
   initMobileMenu();
   initContactForm();
+  initScrollProgress();
+  initCardTilt();
 });
+
+/* ── Preloader ────────────────────────── */
+function initPreloader() {
+  const preloader = document.querySelector('.preloader');
+  if (!preloader) return;
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      preloader.classList.add('loaded');
+    }, 600);
+  });
+
+  // Fallback: remove after 3s even if load event doesn't fire
+  setTimeout(() => {
+    preloader.classList.add('loaded');
+  }, 3000);
+}
+
+/* ── Scroll Progress Bar ──────────────── */
+function initScrollProgress() {
+  const bar = document.querySelector('.scroll-progress');
+  if (!bar) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    bar.style.width = progress + '%';
+  }, { passive: true });
+}
 
 /* ── Navbar Scroll Effect ──────────────── */
 function initNavbar() {
@@ -163,7 +196,7 @@ function animateCounter(el) {
 /* ── Smooth Scroll ─────────────────────── */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -184,7 +217,7 @@ function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     // Gather form data
@@ -232,7 +265,7 @@ function showFormSuccess(form) {
   }, 3000);
 }
 
-/* ── Parallax Effect (subtle) ──────────── */
+/* ── Enhanced Parallax Effect ──────────── */
 window.addEventListener('scroll', () => {
   const heroes = document.querySelectorAll('.hero__bg img');
   heroes.forEach(img => {
@@ -240,7 +273,38 @@ window.addEventListener('scroll', () => {
     const yPos = window.scrollY * speed;
     img.style.transform = `scale(1.05) translateY(${yPos}px)`;
   });
+
+  // Parallax for particles too
+  const particles = document.querySelector('.hero__particles');
+  if (particles) {
+    const pSpeed = 0.15;
+    particles.style.transform = `translateY(${window.scrollY * pSpeed}px)`;
+  }
 }, { passive: true });
+
+/* ── 3D Card Tilt Effect ──────────────── */
+function initCardTilt() {
+  const cards = document.querySelectorAll('.service-card, .property-card, .trust-card');
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = (y - centerY) / centerY * -5;
+      const rotateY = (x - centerX) / centerX * 5;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
 
 /* ── Testimonial Auto-Scroll (if carousel exists) ── */
 function initTestimonialCarousel() {
