@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initMobileMenu();
   initCounters();
+  initContactModal();
 });
 
 /* ── Navbar Scroll Effect ──────────────── */
@@ -188,4 +189,55 @@ function initCounters() {
   );
 
   counters.forEach(counter => observer.observe(counter));
+}
+
+
+/* ── Contact Modal (Popup) ── */
+function initContactModal() {
+  const modalHTML = `
+    <div class="contact-modal" id="contact-modal">
+      <div class="contact-modal__backdrop"></div>
+      <div class="contact-modal__content">
+        <button class="contact-modal__close" aria-label="Close modal">&times;</button>
+        <h3>Inquire <span class="text-gold">Now</span></h3>
+        <p>Fill out the form below and our team will get back to you shortly.</p>
+        <form action="https://formsubmit.co/info@housematerealtors.com" method="POST">
+           <input type="hidden" name="_next" value="https://housematerealtors.com/">
+           <input type="text" name="name" placeholder="Your Name" required>
+           <input type="email" name="email" placeholder="Your Email" required>
+           <input type="tel" name="phone" placeholder="Your Phone Number" required>
+           <button type="submit" class="btn btn--primary" style="margin-top: 10px;">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  const modal = document.getElementById('contact-modal');
+  const closeBtn = modal.querySelector('.contact-modal__close');
+  const backdrop = modal.querySelector('.contact-modal__backdrop');
+
+  const openModal = (e) => {
+    e.preventDefault();
+    modal.classList.add('active');
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+  };
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  // Attach to CTAs and properties
+  const triggers = document.querySelectorAll('a[href*="contact"], .project-showcase__image-wrapper, .interior-gallery__item');
+  triggers.forEach(el => {
+    // Only hijack if it's not the actual navbar link
+    if (!el.classList.contains('navbar__links') && !el.closest('.navbar__links')) {
+      if (!el.hasAttribute('href')) {
+        el.classList.add('property-clickable');
+      }
+      el.addEventListener('click', openModal);
+    }
+  });
 }
