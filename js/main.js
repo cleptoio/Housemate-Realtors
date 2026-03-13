@@ -124,6 +124,23 @@ function initSmoothScrollReveal() {
     });
   });
 
+  // Dedicate an observer for project showcases to trigger block-reveals without messing up their CSS transforms
+  const showcaseObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          showcaseObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
+  );
+
+  document.querySelectorAll('.project-showcase, .project-showcase__image-wrapper').forEach(el => {
+    showcaseObserver.observe(el);
+  });
+
   revealElements.forEach(el => observer.observe(el));
 }
 
