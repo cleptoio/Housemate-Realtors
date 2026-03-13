@@ -1,0 +1,7 @@
+# Housemate Realtors — robots.txt
+User-agent: *
+Allow: /
+
+Disallow: /assets/images/*.pdf
+
+Sitemap: https://housematerealtors.com/sitemap.xml

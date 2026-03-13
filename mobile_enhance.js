@@ -438,6 +438,26 @@ const mobileCss = `
     max-width: 100%;
   }
 
+  .section--dark .project-showcase__content {
+    background: var(--navy) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+    border: 1px solid rgba(200,164,86,0.15);
+  }
+
+  .section--dark .project-showcase__content h3,
+  .section--dark .project-showcase__content p {
+    color: var(--white) !important;
+  }
+
+  .section--dark .project-features li {
+    color: var(--cream) !important;
+    border-color: rgba(255,255,255,0.1) !important;
+  }
+
+  .section--dark .project-features span {
+    color: var(--slate-light) !important;
+  }
+
   .project-showcase__image-wrapper {
     order: 1;
     aspect-ratio: 16/9;
