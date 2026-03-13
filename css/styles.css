@@ -974,35 +974,57 @@ body {
 }
 
 /* ── Testimonials ──────────────────────── */
+.testimonials-marquee {
+  overflow: hidden;
+  padding: var(--space-lg) 0;
+  position: relative;
+  width: 100%;
+}
+
+.testimonials-marquee::before,
+.testimonials-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonials-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--white), transparent);
+}
+
+.testimonials-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--white), transparent);
+}
+
 .testimonials-grid {
   display: flex;
-  overflow-x: auto;
   gap: var(--space-lg);
-  padding-bottom: var(--space-md);
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gold) var(--gray-light);
+  width: max-content;
+  animation: marquee 40s linear infinite;
 }
 
-.testimonials-grid::-webkit-scrollbar {
-  height: 8px;
+.testimonials-grid:hover {
+  animation-play-state: paused;
 }
 
-.testimonials-grid::-webkit-scrollbar-track {
-  background: var(--gray-light);
-  border-radius: 4px;
-}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
 
-.testimonials-grid::-webkit-scrollbar-thumb {
-  background: var(--gold);
-  border-radius: 4px;
+  100% {
+    transform: translateX(calc(-50% - (var(--space-lg) / 2)));
+  }
 }
 
 .testimonial-card {
-  flex: 0 0 calc(33.333% - (var(--space-lg) * 2 / 3));
-  min-width: 320px;
-  max-width: 400px;
-  scroll-snap-align: start;
+  flex: 0 0 400px;
   background: var(--white);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
