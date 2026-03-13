@@ -203,6 +203,7 @@ function initContactModal() {
         <p>Fill out the form below and our team will get back to you shortly.</p>
         <form action="https://formsubmit.co/info@housematerealtors.com" method="POST">
            <input type="hidden" name="_next" value="https://housematerealtors.com/">
+           <input type="hidden" name="property_inquiry" id="modal-property-name" value="General Inquiry">
            <input type="text" name="name" placeholder="Your Name" required>
            <input type="email" name="email" placeholder="Your Email" required>
            <input type="tel" name="phone" placeholder="Your Phone Number" required>
@@ -219,6 +220,11 @@ function initContactModal() {
 
   const openModal = (e) => {
     e.preventDefault();
+    const propertyName = e.currentTarget.getAttribute('data-property') || 'General Inquiry';
+    const hiddenInput = document.getElementById('modal-property-name');
+    if (hiddenInput) {
+      hiddenInput.value = propertyName;
+    }
     modal.classList.add('active');
   };
 
