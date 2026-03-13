@@ -107,4 +107,4 @@ Before deploying, replace the following placeholders with real client data:
 
 ---
 
-**Built with ♥ by [Clepto.io](https://clepto.io)**
+**Designed by [Clepto.io](https://clepto.io)**
