@@ -1,103 +1,116 @@
 import { motion } from 'framer-motion';
-import { services as servicesData } from '../data/services';
-import { useUI } from '../context/UIContext';
-import { ArrowRight, Check } from 'lucide-react';
+import { Building2, Home, Layout, ShieldCheck, MapPin, Tool, Hammer, HardHat, Compass, Sparkles } from 'lucide-react';
 
 const Services = () => {
-    const { openContactModal } = useUI();
+    const services = [
+        {
+            title: "Civil Construction",
+            desc: "Industrial-grade engineering for commercial landmarks and high-end residential redevelopment projects across Pune.",
+            icon: <Hammer size={32} />,
+            features: ["Landmark Redevelopment", "Structural Engineering", "Industrial Precision", "End-to-end Project Mgmt"]
+        },
+        {
+            title: "Residential Acquisitions",
+            desc: "Direct access to Pune's primary developer inventories. We secure off-market units and high-growth assets for elite investors.",
+            icon: <Building2 size={32} />,
+            features: ["Pre-launch Access", "Portfolio Diversification", "Market Analysis", "Legal Due Diligence"]
+        },
+        {
+            title: "Interior Architecture",
+            desc: "Transforming raw spaces into bespoke luxury environments. Every stroke reflects the aesthetic of elite contemporary living.",
+            icon: <Layout size={32} />,
+            features: ["Architectural Planning", "Premium Material Sourcing", "Smart Home Integration", "Custom Furnishings"]
+        },
+        {
+            title: "Asset Management",
+            desc: "Strategically managing residential and commercial portfolios to minimize vacancy and maximize appreciation yields.",
+            icon: <ShieldCheck size={32} />,
+            features: ["Lease Management", "Maintenance Protocols", "Financial Reporting", "Exit Strategy Advisory"]
+        }
+    ];
 
     return (
-        <div className="bg-navy min-h-screen text-sand">
-            {/* Header */}
-            <section className="py-32 bg-deep/20 border-b border-cyan/10">
-                <div className="max-w-7xl mx-auto px-6">
+        <div className="bg-navy text-sand font-sans">
+            {/* Page Header */}
+            <section className="py-32 md:py-48 bg-deep/30 border-b border-gold/10 overflow-hidden relative">
+                <div className="absolute top-0 left-0 w-1/4 h-full bg-gold/5 blur-[120px]" />
+                <div className="max-w-7xl mx-auto px-6 relative z-10">
                     <div className="max-w-4xl">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="h-[2px] w-12 bg-cyan shadow-[0_0_10px_#00F2EA]" />
-                            <span className="text-cyan uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold">Capabilities & Expertise</span>
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="h-[2px] w-12 bg-gold shadow-[0_0_10px_#D4AF37]" />
+                            <span className="text-gold uppercase tracking-[0.5em] text-[10px] md:text-sm font-black">Core Capabilities</span>
                         </div>
-                        <h1 className="text-5xl md:text-8xl font-display text-white mb-8 leading-tight">ELEVATING EVERY <br /><span className="text-cyan italic">PROPERTY NEED.</span></h1>
-                        <p className="text-muted text-lg md:text-xl leading-relaxed font-light max-w-2xl">
-                            Housemate Realtors provides specialized solutions tailored to Pune's high-growth markets. From industrial-scale constructions to high-yield asset advisory.
+                        <h1 className="text-5xl md:text-9xl font-display text-white mb-10 leading-[0.85] tracking-tighter">THE <br /><span className="text-gold italic font-light">SPECTRUM.</span></h1>
+                        <p className="text-muted text-lg md:text-2xl leading-relaxed max-w-2xl font-light">
+                            Vertically integrated real estate intelligence. One group, total control over the property lifecycle.
                         </p>
                     </div>
                 </div>
             </section>
 
-            {/* Services List */}
-            <section className="py-32">
-                <div className="max-w-7xl mx-auto px-6 space-y-40">
-                    {servicesData.map((service, i) => (
-                        <div
-                            key={service.id}
-                            className={`flex flex-col ${i % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-16 lg:gap-32 items-center`}
+            {/* Services Grid */}
+            <section className="py-24 md:py-40 max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+                    {services.map((service, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1 }}
+                            className="group p-10 md:p-14 bg-deep/20 border border-gold/10 rounded-2xl hover:border-gold/40 transition-all duration-700 shadow-3xl hover:shadow-[0_40px_100px_rgba(212,175,55,0.08)] relative overflow-hidden"
                         >
-                            {/* Image Side */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
-                                className="w-full lg:w-1/2 relative aspect-[16/10] overflow-hidden group rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-cyan/10"
-                            >
-                                <img
-                                    src={service.image}
-                                    alt={service.title}
-                                    className="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-navy/20 group-hover:bg-transparent transition-colors duration-500" />
-                                <div className="absolute top-6 left-6 px-4 py-1.5 bg-cyan/90 text-navy text-[10px] font-black uppercase tracking-widest rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Strategic Capability
-                                </div>
-                            </motion.div>
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 rounded-full -mr-24 -mt-24 group-hover:bg-gold/10 transition-colors duration-700" />
+                            <div className="text-gold mb-10 p-5 bg-gold/5 w-fit rounded-2xl border border-gold/10 shadow-[0_0_20px_rgba(212,175,55,0.1)] group-hover:bg-gold group-hover:text-navy group-hover:scale-110 transition-all duration-500">
+                                {service.icon}
+                            </div>
+                            <h3 className="text-3xl md:text-4xl font-display text-white mb-6 uppercase tracking-tighter group-hover:text-gold transition-colors">{service.title}</h3>
+                            <p className="text-muted text-base md:text-lg leading-relaxed mb-10 font-light">{service.desc}</p>
 
-                            {/* Content Side */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                className="w-full lg:w-1/2 space-y-10"
-                            >
-                                <div className="space-y-4">
-                                    <span className="text-cyan text-[10px] uppercase tracking-[0.4em] font-black">Segment 0{i + 1}</span>
-                                    <h3 className="text-4xl md:text-6xl font-display text-white leading-tight drop-shadow-md">{service.title}</h3>
-                                </div>
-                                <p className="text-muted text-base md:text-lg leading-relaxed font-light">
-                                    {service.description}
-                                </p>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    {service.features.map((feature, idx) => (
-                                        <div key={idx} className="flex items-center gap-4 text-sand/80 text-[10px] font-black uppercase tracking-widest bg-deep/30 p-5 border border-cyan/10 rounded-lg group hover:border-cyan/40 transition-colors">
-                                            <Check className="text-cyan" size={18} /> {feature}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="pt-6">
-                                    <button
-                                        onClick={openContactModal}
-                                        className="bg-cyan hover:bg-white text-navy px-12 py-5 font-black uppercase tracking-widest text-xs flex items-center justify-center gap-4 transition-all shadow-[0_0_30px_rgba(0,242,234,0.2)] rounded-sm group"
-                                    >
-                                        Inquire Now <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-                                    </button>
-                                </div>
-                            </motion.div>
-                        </div>
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4">
+                                {service.features.map((feature, f) => (
+                                    <li key={f} className="flex items-center gap-3 text-xs md:text-sm font-black uppercase tracking-widest text-gold/60 border-b border-gold/5 pb-2">
+                                        <Compass size={14} className="text-gold" /> {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
                     ))}
                 </div>
             </section>
 
-            {/* Trust Segment */}
-            <section className="py-32 bg-deep/30 border-y border-cyan/10 mb-32 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
-                <div className="max-w-4xl mx-auto px-6 text-center">
-                    <h2 className="text-3xl md:text-5xl font-display text-white mb-10 leading-tight">Every service is backed by <span className="text-cyan">10+ years</span> of asset mastery in Pune.</h2>
-                    <button
-                        onClick={openContactModal}
-                        className="text-cyan uppercase tracking-[.4em] font-black text-[10px] md:text-xs border-b border-cyan/40 pb-3 hover:border-cyan hover:text-white transition-all shadow-[0_5px_15px_rgba(0,242,234,0.1)]"
-                    >
-                        Schedule a Strategic Consultation
-                    </button>
+            {/* Strategic Authority Section */}
+            <section className="py-24 md:py-40 bg-deep border-y border-gold/5 relative overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.03)_0%,transparent_70%)]" />
+                <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+                    <div className="inline-flex items-center gap-4 mb-10">
+                        <Sparkles className="text-gold" size={24} />
+                        <h2 className="text-gold uppercase tracking-[1em] text-xs font-black">Industrial Grade Authority</h2>
+                    </div>
+                    <h2 className="text-4xl md:text-7xl font-display text-white mb-20 leading-tight uppercase tracking-tighter">WHY THE <br /><span className="text-gold italic font-light">HOUSEMATE HYBRID?</span></h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-left">
+                        <div className="space-y-6">
+                            <h4 className="text-white font-black text-xl uppercase tracking-widest border-l-4 border-gold pl-6">Technical Bias</h4>
+                            <p className="text-muted text-sm font-light leading-relaxed">Unlike traditional real estate agents, our background in civil construction allows us to evaluate asset quality with structural precision.</p>
+                        </div>
+                        <div className="space-y-6">
+                            <h4 className="text-white font-black text-xl uppercase tracking-widest border-l-4 border-gold pl-6">Velocity First</h4>
+                            <p className="text-muted text-sm font-light leading-relaxed">Our unified model eliminates third-party friction, accelerating project delivery and asset liquidation cycles.</p>
+                        </div>
+                        <div className="space-y-6">
+                            <h4 className="text-white font-black text-xl uppercase tracking-widest border-l-4 border-gold pl-6">Elite Discretion</h4>
+                            <p className="text-muted text-sm font-light leading-relaxed">We operate as a private family office for our clients, ensuring total confidentiality in high-value asset acquisitions.</p>
+                        </div>
+                    </div>
                 </div>
+            </section>
+
+            {/* Contact Bridge */}
+            <section className="py-32 md:py-48 max-w-7xl mx-auto px-6 text-center">
+                <div className="inline-block p-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent w-full max-w-lg mb-16" />
+                <h2 className="text-3xl md:text-5xl font-display text-white mb-10 tracking-tighter">EVALUATE YOUR NEXT <br /><span className="text-gold italic">CAPITAL DEPLOYMENT.</span></h2>
+                <Link to="/contact" className="inline-block bg-gold hover:bg-white text-navy px-14 py-7 rounded-sm text-[11px] font-black uppercase tracking-[0.4em] transition-all shadow-[0_30px_60px_rgba(212,175,55,0.25)]">Request Strategic Brief</Link>
             </section>
         </div>
     );

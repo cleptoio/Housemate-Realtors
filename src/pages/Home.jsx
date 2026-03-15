@@ -1,215 +1,209 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, ChevronRight, Star, Shield, Layout as LayoutIcon, Home as HomeIcon, MapPin, Phone, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { projects } from '../data/projects';
+import { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
 import { useUI } from '../context/UIContext';
+import { projects } from '../data/projects';
+import { Link } from 'react-router-dom';
+import {
+    ArrowRight,
+    Building2,
+    Users,
+    ShieldCheck,
+    MapPin,
+    Sparkles,
+    TrendingUp,
+    Layout,
+    Hammer
+} from 'lucide-react';
 
-const ProjectCard = ({ project }) => (
-    <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="group relative overflow-hidden bg-navy/50 border border-cyan/10 hover:border-cyan/40 transition-all duration-500 rounded-xl"
-    >
-        <div className="aspect-[4/5] overflow-hidden relative">
-            <img src={project.heroImage} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent opacity-90" />
-            <div className="absolute inset-0 bg-cyan/5 group-hover:bg-cyan/10 transition-colors duration-500" />
-        </div>
-        <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full transform transition-all duration-500">
-            <span className="text-cyan text-[10px] uppercase tracking-widest font-bold mb-3 block drop-shadow-[0_0_8px_rgba(0,242,234,0.5)]">{project.tag || project.category}</span>
-            <h3 className="text-xl md:text-2xl font-display text-sand mb-4 drop-shadow-md">{project.title}</h3>
-            <Link to={`/projects/${project.id}`} className="inline-flex items-center gap-2 text-cyan text-[10px] uppercase tracking-widest font-bold hover:text-white transition-colors group/link">
-                View Project <ChevronRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
-            </Link>
-        </div>
-    </motion.div>
-);
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 
 const Home = () => {
     const { openContactModal } = useUI();
+    const heroRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: heroRef,
+        offset: ["start start", "end start"]
+    });
+
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
     const featuredProjects = projects.slice(0, 3);
 
     return (
-        <div className="bg-navy selection:bg-cyan/30 text-sand overflow-x-hidden">
+        <div className="bg-navy overflow-hidden">
             {/* Hero Section */}
-            <section className="relative h-[90vh] md:h-screen flex items-center pt-20 overflow-hidden">
-                <div className="absolute inset-0 z-0">
+            <section ref={heroRef} className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+                <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-10" />
                     <img
-                        src="/assets/images/luxury-building.png"
-                        alt="Hero Background"
-                        className="w-full h-full object-cover opacity-25 scale-110 blur-[1px]"
+                        src="/assets/images/hero_bg.png"
+                        alt="Luxury Real Estate"
+                        className="w-full h-full object-cover grayscale-[20%] scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-navy/50" />
-                </div>
+                </motion.div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+                {/* Decorative Elements (Luxury Glows) */}
+                <div className="absolute top-1/4 left-1/4 w-[30vw] h-[30vw] bg-gold/5 blur-[120px] rounded-full animate-pulse-slow" />
+                <div className="absolute bottom-1/4 right-1/4 w-[25vw] h-[25vw] bg-gold/10 blur-[100px] rounded-full animate-pulse-slow delay-700" />
+
+                <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="max-w-4xl"
                     >
-                        <div className="flex items-center gap-4 mb-8">
-                            <div className="h-[2px] w-12 bg-cyan shadow-[0_0_10px_#00F2EA]" />
-                            <span className="text-cyan uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold drop-shadow-[0_0_10px_rgba(0,242,234,0.4)]">Pune's Premier Property Advisory</span>
+                        <div className="inline-flex items-center gap-3 mb-8 px-6 py-2 border border-gold/30 rounded-full bg-navy/40 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+                            <Sparkles className="text-gold" size={16} />
+                            <span className="text-gold text-[10px] md:text-xs uppercase tracking-[0.4em] font-black">Strategic Asset Excellence</span>
                         </div>
-                        <h1 className="text-4xl md:text-8xl font-display text-white mb-8 leading-[1.1] md:leading-[1.1] drop-shadow-2xl">
-                            BUILDING <span className="text-cyan">EXCELLENCE</span> <br className="hidden md:block" /> UNDER <span className="text-cyan italic">ONE ROOF.</span>
+                        <h1 className="text-5xl md:text-9xl font-display text-white mb-10 leading-tight tracking-tighter">
+                            UNIFIED <br />
+                            <span className="text-gold italic font-light">REAL ESTATE.</span>
                         </h1>
-                        <p className="text-muted text-base md:text-xl mb-12 leading-relaxed max-w-xl font-light">
-                            From premium construction and interior design to high-yield investment advisory. We turn property visions into reality in Pune's growth corridors.
+                        <p className="max-w-3xl mx-auto text-muted text-lg md:text-xl leading-relaxed mb-12 font-light">
+                            From civil construction to luxury acquisitions and interior transformations. We build, manage, and scale property portfolios with industrial precision.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-6">
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                             <button
                                 onClick={openContactModal}
-                                className="bg-cyan hover:bg-white text-navy px-10 py-5 font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-[0_0_30px_rgba(0,242,234,0.3)] hover:shadow-[0_0_40px_rgba(0,242,234,0.5)] rounded-sm"
+                                className="w-full md:w-auto bg-gold hover:bg-white text-navy px-12 py-6 rounded-sm text-[11px] font-black uppercase tracking-[0.3em] transition-all shadow-[0_20px_40px_rgba(212,175,55,0.2)] hover:shadow-[0_20px_60px_rgba(212,175,55,0.4)]"
                             >
-                                Start Your Journey <ArrowRight size={18} />
+                                Book Consultation
                             </button>
-                            <Link to="/projects" className="group border border-cyan/20 hover:border-cyan px-10 py-5 text-sand font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all backdrop-blur-md rounded-sm">
-                                View Portfolio <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                            <Link
+                                to="/projects"
+                                className="w-full md:w-auto border border-gold/30 hover:border-gold px-12 py-6 rounded-sm text-[11px] font-black uppercase tracking-[0.3em] text-white hover:bg-gold/5 transition-all"
+                            >
+                                View Portfolio
                             </Link>
                         </div>
                     </motion.div>
                 </div>
 
-                {/* Decorative Grid Bubbles */}
-                <div className="absolute bottom-20 right-10 hidden lg:block opacity-10 pointer-events-none">
-                    <div className="grid grid-cols-6 gap-6">
-                        {[...Array(36)].map((_, i) => (
-                            <div key={i} className="w-1.5 h-1.5 bg-cyan rounded-full animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
-                        ))}
-                    </div>
-                </div>
+                {/* Scroll Indicator */}
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gold/40"
+                >
+                    <div className="w-[1px] h-12 bg-gradient-to-b from-gold to-transparent mx-auto" />
+                </motion.div>
             </section>
 
-            {/* Service Rapid Access - Mobile Optimized */}
-            <section className="bg-deep/40 py-16 md:py-24 border-y border-cyan/10 backdrop-blur-md">
+            {/* Strategic Verticals */}
+            <section className="py-32 relative bg-deep">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {[
-                            { label: 'Construction', icon: <HomeIcon size={24} /> },
-                            { label: 'Asset Advisory', icon: <Star size={24} /> },
-                            { label: 'Management', icon: <Shield size={24} /> },
-                            { label: 'Design Labs', icon: <LayoutIcon size={24} /> }
+                            { icon: <Hammer className="text-gold" size={32} />, title: "CONSTRUCTION", desc: "Industrial-grade civil engineering and redevelopment." },
+                            { icon: <Building2 className="text-gold" size={32} />, title: "REAL ESTATE", desc: "Precision acquisition of high-yield luxury residential assets." },
+                            { icon: <Layout className="text-gold" size={32} />, title: "INTERIORS", desc: "Bespoke architectural transformations for elite living." }
                         ].map((item, i) => (
-                            <div key={i} className="flex flex-col items-center gap-5 group cursor-pointer text-center" onClick={openContactModal}>
-                                <div className="p-5 md:p-6 bg-navy/60 border border-cyan/20 text-cyan group-hover:bg-cyan group-hover:text-navy group-hover:border-cyan group-hover:shadow-[0_0_30px_#00F2EA33] transition-all duration-500 rounded-2xl">
-                                    {item.icon}
-                                </div>
-                                <span className="text-[9px] md:text-xs uppercase tracking-[0.3em] font-black text-sand/40 group-hover:text-cyan transition-colors">
-                                    {item.label}
-                                </span>
-                            </div>
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                className="group p-10 bg-navy/40 border border-gold/5 hover:border-gold/30 transition-all rounded-xl shadow-2xl relative overflow-hidden"
+                            >
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full -mr-16 -mt-16 group-hover:bg-gold/10 transition-colors" />
+                                <div className="mb-8 p-4 bg-gold/5 w-fit rounded-lg">{item.icon}</div>
+                                <h3 className="text-2xl font-display text-white mb-4 uppercase tracking-tighter">{item.title}</h3>
+                                <p className="text-muted text-sm leading-relaxed font-light">{item.desc}</p>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Featured Projects - Fix for missing images */}
-            <section className="py-24 md:py-40 bg-navy relative">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-cyan/5 blur-[150px] -z-10" />
+            {/* Featured Developments */}
+            <section className="py-32 bg-navy border-y border-gold/5">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-10">
+                    <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
                         <div className="max-w-2xl">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="h-[1px] w-8 bg-cyan/50" />
-                                <span className="text-cyan uppercase tracking-[0.4em] text-[10px] font-bold">Portfolio Highlights</span>
-                            </div>
-                            <h2 className="text-4xl md:text-7xl font-display text-white leading-[1.1]">SIGNATURE <br /> <span className="text-cyan italic">PROJECTS.</span></h2>
+                            <span className="text-gold uppercase tracking-[0.4em] text-xs font-black mb-4 block">Current Assets</span>
+                            <h2 className="text-4xl md:text-7xl font-display text-white uppercase tracking-tighter">THE <span className="text-gold italic">ARCHIVE.</span></h2>
                         </div>
-                        <Link to="/projects" className="group text-cyan text-[10px] uppercase tracking-[0.3em] font-black border-b border-cyan/30 pb-3 hover:border-cyan hover:text-white transition-all flex items-center gap-3">
-                            VIEW ALL COLLECTIONS <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        <Link to="/projects" className="group flex items-center gap-3 text-gold text-xs font-black uppercase tracking-[0.3em] border-b border-gold/20 pb-2 hover:border-gold transition-all">
+                            View All Projects <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-                        {featuredProjects.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Premium Why Us Section */}
-            <section className="py-24 md:py-40 bg-deep/20 overflow-hidden relative border-t border-cyan/10">
-                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32 items-center">
-                    <div className="relative group">
-                        <motion.div
-                            initial={{ opacity: 0, x: -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="relative z-10"
-                        >
-                            <div className="absolute -inset-6 border border-cyan/10 translate-x-3 translate-y-3 -z-10 rounded-sm group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-700" />
-                            <img
-                                src="/assets/images/godrej_ivara_hero.png"
-                                alt="Why Housemate"
-                                className="rounded-sm shadow-2xl w-full grayscale-[40%] group-hover:grayscale-0 transition-all duration-1000 scale-[1.01]"
-                            />
-                            <div className="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 p-8 md:p-12 bg-cyan text-navy rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                                <p className="text-5xl md:text-7xl font-display font-black mb-1">10+</p>
-                                <p className="uppercase tracking-[0.3em] text-[9px] md:text-[11px] font-black opacity-80">Years Excellence</p>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    <div className="space-y-10 md:space-y-12">
-                        <div className="inline-flex items-center gap-3 px-5 py-2 bg-cyan/5 border border-cyan/20 rounded-full">
-                            <div className="w-1.5 h-1.5 bg-cyan rounded-full animate-ping" />
-                            <span className="text-cyan uppercase tracking-[0.3em] text-[10px] font-black">The Hybrid Advantage</span>
-                        </div>
-                        <h2 className="text-4xl md:text-6xl font-display text-white leading-[1.2]">Expertise across the <span className="text-cyan italic">entire lifecycle</span> of property.</h2>
-                        <p className="text-muted text-base md:text-lg leading-relaxed font-light">
-                            We bridge the gap between architectural precision and market intelligence. From evaluating land and managing industrial-scale construction to designing high-end interiors and securing elite asset deals.
-                        </p>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-12 border-t border-cyan/10">
-                            <div className="group space-y-4">
-                                <div className="flex items-center gap-3 text-cyan">
-                                    <Shield size={20} className="shadow-[0_0_15px_#00F2EA55]" />
-                                    <h4 className="font-black text-xs tracking-widest uppercase text-white">RERA CERTIFIED</h4>
-                                </div>
-                                <p className="text-xs md:text-sm text-muted leading-relaxed group-hover:text-sand/80 transition-colors">Rigorous legal compliance and absolute transparency in every square foot.</p>
-                            </div>
-                            <div className="group space-y-4">
-                                <div className="flex items-center gap-3 text-cyan">
-                                    <MapPin size={20} className="shadow-[0_0_15px_#00F2EA55]" />
-                                    <h4 className="font-black text-xs tracking-widest uppercase text-white">PUNE MASTERY</h4>
-                                </div>
-                                <p className="text-xs md:text-sm text-muted leading-relaxed group-hover:text-sand/80 transition-colors">Dominating key growth hubs like Kharadi, Baner, and upcoming corridors.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* High Conversion CTA - Brand Cyan */}
-            <section className="py-32 md:py-48 relative overflow-hidden bg-navy text-center select-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-cyan/5 blur-[180px] -z-10" />
-                <div className="max-w-5xl mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="space-y-12"
+                    <Swiper
+                        modules={[Autoplay, Pagination]}
+                        spaceBetween={30}
+                        slidesPerView={1}
+                        autoplay={{ delay: 5000 }}
+                        pagination={{ clickable: true }}
+                        breakpoints={{
+                            768: { slidesPerView: 2 },
+                            1024: { slidesPerView: 3 },
+                        }}
+                        className="pb-20"
                     >
-                        <h2 className="text-4xl md:text-8xl font-display text-white mb-6 uppercase tracking-tighter leading-none">
-                            Ready to secure <br /> <span className="text-cyan">your asset?</span>
-                        </h2>
-                        <p className="font-black uppercase tracking-[0.5em] text-[10px] md:text-xs text-cyan opacity-60">Consult with info@housematerealtors.com</p>
+                        {featuredProjects.map((project) => (
+                            <SwiperSlide key={project.id}>
+                                <div className="group relative aspect-[4/5] overflow-hidden rounded-xl border border-gold/10 bg-deep/50">
+                                    <img src={project.heroImage} alt={project.title} className="absolute inset-0 w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent" />
 
-                        <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-16">
-                            <button
-                                onClick={openContactModal}
-                                className="w-full md:w-auto bg-cyan hover:bg-white text-navy px-16 py-7 font-black uppercase tracking-[0.2em] text-xs transition-all shadow-[0_0_60px_#00F2EA44] hover:shadow-[0_0_80px_#00F2EA66] rounded-full"
-                            >
-                                REQUEST EXPERT CALLBACK
-                            </button>
+                                    <div className="absolute bottom-0 left-0 p-8 w-full translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <MapPin size={12} className="text-gold" />
+                                            <span className="text-gold uppercase tracking-[0.3em] font-black text-[9px]">{project.location}</span>
+                                        </div>
+                                        <h3 className="text-2xl font-display text-white mb-6 uppercase tracking-tight">{project.title}</h3>
+                                        <div className="flex gap-4">
+                                            <Link to={`/projects/${project.id}`} className="flex-1 bg-white hover:bg-gold text-navy py-4 text-center text-[10px] font-black uppercase tracking-widest transition-all">Details</Link>
+                                            <button onClick={openContactModal} className="flex-1 border border-white/20 hover:border-gold text-white hover:text-gold py-4 text-center text-[10px] font-black uppercase tracking-widest transition-all">Inquire</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            </section>
+
+            {/* Why Housemate */}
+            <section className="py-32 bg-deep relative">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                    >
+                        <span className="text-gold uppercase tracking-[0.4em] text-xs font-black mb-6 block">Unified Authority</span>
+                        <h2 className="text-4xl md:text-7xl font-display text-white mb-10 uppercase tracking-tighter leading-[0.9]">ONE GROUP. <br /><span className="text-gold italic">TOTAL CONTROL.</span></h2>
+                        <div className="space-y-8">
+                            {[
+                                { icon: <ShieldCheck className="text-gold" />, title: "Risk Mitigation", text: "In-house end-to-end management reduces operational volatility." },
+                                { icon: <TrendingUp className="text-gold" />, title: "Yield Optimization", text: "Strategic market insight and aggressive portfolio scaling." },
+                                { icon: <Users className="text-gold" />, title: "Elite Network", text: "Direct access to Pune's primary developer pipelines." }
+                            ].map((feature, i) => (
+                                <div key={i} className="flex gap-6 items-start">
+                                    <div className="p-3 bg-gold/5 rounded-lg border border-gold/10">{feature.icon}</div>
+                                    <div>
+                                        <h4 className="text-white font-black uppercase tracking-widest text-xs mb-2">{feature.title}</h4>
+                                        <p className="text-muted text-sm font-light leading-relaxed">{feature.text}</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </motion.div>
+                    <div className="relative">
+                        <div className="absolute -inset-4 bg-gold/10 blur-3xl opacity-30 -z-10" />
+                        <img src="/assets/images/about_vision.png" alt="Strategic Vision" className="rounded-2xl shadow-2xl grayscale-[20%] border border-gold/20" />
+                        <div className="absolute -bottom-10 -right-10 bg-gold p-10 text-navy font-display text-4xl hidden md:block rounded-sm shadow-2xl">
+                            15+ <br /><span className="text-xs uppercase tracking-[0.2em] font-black">Strategic Years</span>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
