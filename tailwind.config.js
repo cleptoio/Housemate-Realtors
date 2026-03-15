@@ -7,17 +7,17 @@ export default {
     theme: {
         extend: {
             colors: {
-                navy: '#0F172A',
-                royal: '#1D4ED8',
-                gold: '#D4AF37',
-                sand: '#F3F4F6',
-                slate: '#111827',
-                muted: '#6B7280',
-                error: '#DC2626'
+                navy: '#1a1a2e',
+                deep: '#0f3460',
+                cyan: '#00F2EA',
+                sand: '#eaeaea',
+                slate: '#16213e',
+                muted: '#94a3b8',
+                error: '#e94560'
             },
             fontFamily: {
-                sans: ['Inter', 'DM Sans', 'sans-serif'],
-                display: ['"DM Serif Display"', 'serif'],
+                sans: ['Poppins', 'Inter', 'sans-serif'],
+                display: ['Orbitron', 'sans-serif'],
                 mono: ['"Space Grotesk"', 'monospace']
             }
         },

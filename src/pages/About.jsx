@@ -1,58 +1,62 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, Award, Users, Target, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Award, Users, Target, ArrowRight, Shield, Zap, TrendingUp, Globe } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const About = () => {
     const { openContactModal } = useUI();
 
     return (
-        <div className="bg-navy min-h-screen">
+        <div className="bg-navy min-h-screen text-sand">
             {/* Header */}
-            <section className="py-24 bg-slate">
+            <section className="py-32 bg-deep/30 border-b border-cyan/10">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="max-w-3xl">
-                        <span className="text-gold uppercase tracking-[0.2em] text-[10px] font-bold mb-4 block">Our Story</span>
-                        <h1 className="text-5xl md:text-7xl font-display text-sand mb-8 drop-shadow-xl overflow-visible h-auto">Building <span className="text-gold italic">Trust</span> Since Day One</h1>
-                        <p className="text-muted text-base md:text-lg leading-relaxed drop-shadow-md">
-                            Based in the heart of Pune, Housemate Realtors was founded on a simple promise: to make premium real estate accessible, transparent, and hassle-free.
+                    <div className="max-w-4xl">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="h-[2px] w-12 bg-cyan shadow-[0_0_10px_#00F2EA]" />
+                            <span className="text-cyan uppercase tracking-[0.4em] text-[10px] font-bold">The Hybrid Model</span>
+                        </div>
+                        <h1 className="text-5xl md:text-8xl font-display text-white mb-8 drop-shadow-xl leading-tight">BUILDING <br /><span className="text-cyan italic">TRUST</span> IN PUNE.</h1>
+                        <p className="text-muted text-lg md:text-xl leading-relaxed max-w-2xl font-light">
+                            Housemate Realtors was founded to bridge the gap between traditional brokerage and architectural engineering. Transparent, technical, and high-value.
                         </p>
                     </div>
                 </div>
             </section>
 
             {/* Philosophy */}
-            <section className="py-24 max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <section className="py-40 max-w-7xl mx-auto px-6 overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
+                        initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="relative aspect-square md:aspect-auto"
+                        className="relative group"
                     >
-                        <img src="/assets/images/luxury-building.png" alt="Housemate Realtors Office" className="w-full h-full object-cover rounded-sm shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-700" />
-                        <div className="absolute -bottom-10 -right-10 p-12 bg-gold text-navy hidden md:block shadow-2xl">
-                            <span className="text-5xl font-display font-bold block mb-2">10+</span>
-                            <span className="uppercase tracking-widest text-[10px] font-bold">Years of Excellence</span>
+                        <div className="absolute -inset-6 border border-cyan/10 translate-x-4 translate-y-4 -z-10 rounded-sm" />
+                        <img src="/assets/images/luxury-building.png" alt="Housemate Realtors Core" className="w-full aspect-[4/5] object-cover rounded-xl shadow-[0_30px_100px_rgba(0,0,0,0.5)] grayscale-[50%] group-hover:grayscale-0 transition-all duration-1000" />
+                        <div className="absolute -bottom-12 -right-12 p-12 bg-cyan text-navy rounded-sm shadow-2xl">
+                            <span className="text-6xl font-display font-black block mb-2">10+</span>
+                            <span className="uppercase tracking-[0.2em] text-[10px] font-black">Years Excellence</span>
                         </div>
                     </motion.div>
 
-                    <div className="space-y-8">
-                        <h2 className="text-3xl md:text-4xl font-display text-sand leading-tight drop-shadow-md">Construction, Interiors, Sales & Rentals — <span className="text-gold italic">Under One Roof.</span></h2>
-                        <div className="w-20 h-1 bg-gold" />
-                        <p className="text-muted leading-relaxed text-sm md:text-base">
-                            Most agencies focus on one thing. We focus on you. Whether you want to build a dream villa from scratch, design a modern apartment interior, or find a high-yield rental property in Kharadi, we have specialized teams for each.
+                    <div className="space-y-12">
+                        <h2 className="text-4xl md:text-6xl font-display text-white leading-tight">Construction, Interiors, & Strategic Portfolio Sales.</h2>
+                        <div className="w-32 h-[1px] bg-cyan/50 shadow-[0_0_10px_#00F2EA]" />
+                        <p className="text-muted leading-relaxed text-lg font-light">
+                            Most agencies trade in volume. We trade in value. Whether we are constructing a 50,000 sq.ft commercial asset or managing a residential exit in Wagholi, our approach remains technical and data-driven.
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                             {[
-                                { icon: <ShieldCheck className="text-gold" />, title: "RERA Registered", desc: "Complete compliance and legal security for all transactions." },
-                                { icon: <Award className="text-gold" />, title: "Premium Quality", desc: "Using the finest materials for construction and interiors." },
-                                { icon: <Users className="text-gold" />, title: "Client First", desc: "Personalized advisory tailored to your financial goals." },
-                                { icon: <Target className="text-gold" />, title: "Strategic Locations", desc: "Expertise in Pune's most promising real estate hubs." }
+                                { icon: <ShieldCheck className="text-cyan" />, title: "RERA CERTIFIED", desc: "Rigorous legal vetting for all asset classes." },
+                                { icon: <Zap className="text-cyan" />, title: "TECH DRIVEN", desc: "Digital-first property evaluations and designs." },
+                                { icon: <TrendingUp className="text-cyan" />, title: "ALPHA YIELDS", desc: "Strategic focus on Pune's growth corridors." },
+                                { icon: <Globe className="text-cyan" />, title: "INTEGRATED", desc: "Construction to management under one roof." }
                             ].map((item, i) => (
-                                <div key={i} className="space-y-3">
-                                    <div className="p-3 bg-slate rounded-lg w-fit border border-sand/5">{item.icon}</div>
-                                    <h4 className="text-sand font-bold text-[10px] md:text-xs tracking-widest uppercase">{item.title}</h4>
-                                    <p className="text-muted text-[10px] md:text-xs leading-relaxed">{item.desc}</p>
+                                <div key={i} className="space-y-4 p-6 bg-deep/20 border border-cyan/5 rounded-xl hover:border-cyan/30 transition-all group">
+                                    <div className="p-4 bg-navy rounded-full w-fit border border-cyan/10 group-hover:bg-cyan group-hover:text-navy transition-all">{item.icon}</div>
+                                    <h4 className="text-sand font-black text-[10px] tracking-[0.3em] uppercase">{item.title}</h4>
+                                    <p className="text-muted text-[11px] leading-relaxed group-hover:text-sand/80 transition-colors">{item.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -60,29 +64,33 @@ const About = () => {
                 </div>
             </section>
 
-            {/* Mission Segment */}
-            <section className="py-32 bg-slate overflow-hidden">
+            {/* Scale Segment */}
+            <section className="py-40 bg-deep/40 relative overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[600px] bg-cyan/5 blur-[200px] -z-10" />
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     className="max-w-7xl mx-auto px-6 text-center"
                 >
-                    <h2 className="text-3xl md:text-4xl font-display text-sand mb-6">Our <span className="text-gold">Mission</span></h2>
-                    <p className="text-muted max-w-2xl mx-auto italic font-display text-xl md:text-2xl leading-relaxed drop-shadow-sm">
-                        "To redefine the Pune real estate experience by providing honest, integrated, and high-value solutions that grow with our clients."
-                    </p>
+                    <span className="text-cyan uppercase tracking-[0.5em] text-[10px] font-black mb-10 block">PROMISE OF TRANSPARENCY</span>
+                    <h2 className="text-3xl md:text-6xl font-display text-white mb-10 uppercase tracking-tighter">"Redefining asset and land <br /> management in <span className="text-cyan">PUNE INDIA.</span>"</h2>
+                    <div className="w-1 h-20 bg-gradient-to-b from-cyan to-transparent mx-auto mt-16" />
                 </motion.div>
             </section>
 
-            {/* CTA */}
-            <section className="py-24 bg-navy border-y border-sand/5">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
-                    <h3 className="text-3xl font-display text-sand text-center md:text-left shadow-gold/10 drop-shadow-lg">Ready to start your property journey?</h3>
+            {/* High Impact Footer CTA */}
+            <section className="py-32 bg-navy border-y border-cyan/10">
+                <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row justify-between items-center gap-16">
+                    <div className="max-w-2xl text-center lg:text-left">
+                        <h3 className="text-4xl md:text-5xl font-display text-white leading-tight mb-4">Ready to start your property journey?</h3>
+                        <p className="text-cyan/60 uppercase tracking-[0.3em] text-[10px] font-black">Direct Access: info@housematerealtors.com</p>
+                    </div>
                     <button
                         onClick={openContactModal}
-                        className="bg-gold text-navy px-12 py-5 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3 shadow-xl hover:bg-yellow-600 transition-all"
+                        className="w-full lg:w-auto bg-cyan hover:bg-white text-navy px-16 py-6 font-black uppercase tracking-[0.3em] text-xs shadow-[0_0_30px_rgba(0,242,234,0.3)] transition-all rounded-sm flex items-center justify-center gap-4"
                     >
-                        Talk to an Expert <ArrowRight size={18} />
+                        CONNECT WITH EXPERTS <ArrowRight size={20} />
                     </button>
                 </div>
             </section>

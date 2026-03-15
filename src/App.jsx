@@ -6,10 +6,12 @@ import ProjectDetail from './pages/ProjectDetail';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import ScrollToTop from './components/utils/ScrollToTop';
 
 function App() {
     return (
         <Router>
+            <ScrollToTop />
             <Layout>
                 <Routes>
                     <Route path="/" element={<Home />} />
