@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { services } from '../data/projects'; // Note: Ensure this is the right data source
 import { services as servicesData } from '../data/services';
 import { useUI } from '../context/UIContext';
 import { ArrowRight, Check } from 'lucide-react';
