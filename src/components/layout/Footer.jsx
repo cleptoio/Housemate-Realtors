@@ -1,44 +1,47 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { useUI } from '../../context/UIContext';
 
 const Footer = () => {
+    const { openContactModal } = useUI();
+
     return (
-        <footer className="bg-slate py-20 border-t border-sand/5">
+        <footer className="bg-slate py-24 border-t border-sand/5">
             <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
                     {/* Brand Col */}
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-8">
                         <Link to="/" className="flex items-center gap-3">
                             <img src="/assets/images/logo.png" alt="Housemate" className="h-12 w-12" />
                             <div className="flex flex-col">
-                                <span className="text-2xl font-display font-bold text-sand uppercase tracking-wider">Housemate</span>
+                                <span className="text-2xl font-display font-bold text-sand uppercase tracking-wider leading-none">Housemate</span>
                                 <span className="text-xs text-gold uppercase tracking-[0.2em]">Realtors</span>
                             </div>
                         </Link>
-                        <p className="text-muted text-sm leading-relaxed">
-                            Pune's trusted real estate partner delivering premium property solutions — buying, selling, renting, interior design, and construction developments.
+                        <p className="text-muted text-sm leading-relaxed max-w-xs">
+                            Pune's trusted real estate partner delivering premium property solutions — building excellence under one roof.
                         </p>
                         <div className="flex gap-4">
-                            <a href="https://www.instagram.com/housemate_realtors" target="_blank" rel="noopener" className="p-2 bg-navy rounded-full text-sand/60 hover:text-gold transition-colors">
+                            <a href="https://www.instagram.com/housemate_realtors" target="_blank" rel="noopener" className="p-2.5 bg-navy rounded-full text-sand/60 hover:text-gold transition-colors border border-sand/5">
                                 <Instagram size={18} />
                             </a>
-                            <a href="https://www.facebook.com/HouseMateRealtors" target="_blank" rel="noopener" className="p-2 bg-navy rounded-full text-sand/60 hover:text-gold transition-colors">
+                            <a href="https://www.facebook.com/HouseMateRealtors" target="_blank" rel="noopener" className="p-2.5 bg-navy rounded-full text-sand/60 hover:text-gold transition-colors border border-sand/5">
                                 <Facebook size={18} />
                             </a>
-                            <a href="#" className="p-2 bg-navy rounded-full text-sand/60 hover:text-gold transition-colors">
+                            <a href="#" className="p-2.5 bg-navy rounded-full text-sand/60 hover:text-gold transition-colors border border-sand/5">
                                 <Linkedin size={18} />
                             </a>
                         </div>
                     </div>
 
                     {/* Links */}
-                    <div>
-                        <h4 className="text-sand font-display text-lg mb-8">Quick Links</h4>
-                        <ul className="flex flex-col gap-4 text-sm text-muted">
-                            <li><Link to="/about" className="hover:text-gold transition-colors">About Housemate</Link></li>
-                            <li><Link to="/services" className="hover:text-gold transition-colors">Our Services</Link></li>
-                            <li><Link to="/projects" className="hover:text-gold transition-colors">Recent Projects</Link></li>
-                            <li><Link to="/contact" className="hover:text-gold transition-colors">Enquire Now</Link></li>
+                    <div className="pt-2">
+                        <h4 className="text-sand font-display text-xl mb-10 relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-8 after:h-0.5 after:bg-gold">Explore</h4>
+                        <ul className="flex flex-col gap-5 text-sm text-muted">
+                            <li><Link to="/about" className="hover:text-gold transition-colors uppercase tracking-widest text-[10px] font-bold">About Housemate</Link></li>
+                            <li><Link to="/services" className="hover:text-gold transition-colors uppercase tracking-widest text-[10px] font-bold">Our Services</Link></li>
+                            <li><Link to="/projects" className="hover:text-gold transition-colors uppercase tracking-widest text-[10px] font-bold">Recent Projects</Link></li>
+                            <li><button onClick={openContactModal} className="hover:text-gold transition-colors text-left uppercase tracking-widest text-[10px] font-bold">Enquire Now</button></li>
                         </ul>
                     </div>
 

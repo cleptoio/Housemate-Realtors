@@ -1,99 +1,95 @@
-import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { projects } from '../data/projects';
-import { services } from '../data/services';
-import { ArrowRight, Building2, Home as HomeIcon, Key, Palette } from 'lucide-react';
+import { ArrowRight, ChevronRight, Star, Shield, Layout as LayoutIcon, Home as HomeIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { projects } from '../data/projects';
+import { useUI } from '../context/UIContext';
 
-gsap.registerPlugin(ScrollTrigger);
+const ProjectCard = ({ project }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="group relative overflow-hidden bg-slate border border-sand/5"
+    >
+        <div className="aspect-[4/5] overflow-hidden">
+            <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-transparent opacity-60" />
+        </div>
+        <div className="absolute bottom-0 left-0 p-8 w-full transform transition-transform duration-500">
+            <span className="text-gold text-[10px] uppercase tracking-widest font-bold mb-3 block drop-shadow-md">{project.category}</span>
+            <h3 className="text-2xl font-display text-sand mb-4 drop-shadow-md">{project.title}</h3>
+            <Link to={`/projects/${project.id}`} className="inline-flex items-center gap-2 text-sand text-[10px] uppercase tracking-widest font-bold hover:text-gold transition-colors">
+                View Project <ChevronRight size={14} />
+            </Link>
+        </div>
+    </motion.div>
+);
 
 const Home = () => {
-    const heroRef = useRef(null);
-
-    useEffect(() => {
-        // Hero parallax
-        gsap.to(".hero-bg", {
-            yPercent: 30,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero-section",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-    }, []);
+    const { openContactModal } = useUI();
+    const featuredProjects = projects.slice(0, 3);
 
     return (
-        <div className="overflow-hidden">
+        <div className="bg-navy">
             {/* Hero Section */}
-            <section className="hero-section relative h-[90vh] md:h-screen flex items-center bg-navy">
-                <div className="hero-bg absolute inset-0 z-0">
+            <section className="relative h-screen flex items-center overflow-hidden">
+                <div className="absolute inset-0 z-0">
                     <img
-                        src="/assets/images/riverdale_grand_hero.png"
-                        alt="Premium Real Estate"
-                        className="w-full h-[130%] object-cover opacity-60 mix-blend-luminosity"
+                        src="/assets/images/luxury-building.png"
+                        alt="Hero Background"
+                        className="w-full h-full object-cover opacity-40 scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-transparent" />
                 </div>
 
-                <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
-                    <div className="max-w-3xl">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <span className="text-gold uppercase tracking-[0.3em] text-xs font-bold mb-6 block">
-                                Pune • Maharashtra • India
-                            </span>
-                            <h1 className="text-5xl md:text-8xl font-display text-sand leading-tight mb-8">
-                                End-to-End Real <br />
-                                <span className="text-gold italic">Estate & Build</span>
-                            </h1>
-                            <p className="text-lg md:text-xl text-sand/70 leading-relaxed mb-10 max-w-xl">
-                                From ground-up construction and interiors to buying, selling and renting properties – Housemate Realtors handles every step with expertise.
-                            </p>
-                            <div className="flex flex-wrap gap-4">
-                                <Link to="/projects" className="bg-gold hover:bg-yellow-600 text-navy font-bold px-10 py-5 transition-all flex items-center gap-3 group">
-                                    View Projects <ArrowRight className="group-hover:translate-x-2 transition-transform" />
-                                </Link>
-                                <Link to="/services" className="border border-sand/20 hover:border-gold text-sand px-10 py-5 transition-all">
-                                    Explore Services
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </div>
+                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1 }}
+                        className="max-w-3xl"
+                    >
+                        <span className="text-gold uppercase tracking-[0.3em] text-[10px] md:text-sm font-bold mb-6 block drop-shadow-sm">Pune's Premier Property Advisory</span>
+                        <h1 className="text-4xl md:text-8xl font-display text-sand mb-8 leading-[1.1] drop-shadow-xl">
+                            Building <span className="text-gold italic">Excellence</span> <br className="hidden md:block" /> Under One Roof.
+                        </h1>
+                        <p className="text-muted text-sm md:text-xl mb-12 leading-relaxed max-w-xl drop-shadow-sm">
+                            From premium construction and interior design to high-yield investment advisory. We turn property visions into reality.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-6">
+                            <button
+                                onClick={openContactModal}
+                                className="bg-gold hover:bg-yellow-600 text-navy px-10 py-5 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-2xl"
+                            >
+                                Start Your Journey <ArrowRight size={18} />
+                            </button>
+                            <Link to="/projects" className="border border-sand/20 hover:border-gold px-10 py-5 text-sand font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all backdrop-blur-sm">
+                                View Portfolio
+                            </Link>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 
             {/* Service Strip */}
-            <section className="py-20 bg-slate">
+            <section className="bg-slate py-12 border-y border-sand/5">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {services.map((service, i) => (
-                            <motion.div
-                                key={service.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                viewport={{ once: true }}
-                                className="group p-8 bg-navy/50 border border-sand/5 hover:border-gold/30 transition-all hover:-translate-y-2"
-                            >
-                                <div className="text-gold mb-6 group-hover:scale-110 transition-transform origin-left">
-                                    {i === 0 && <Building2 size={32} />}
-                                    {i === 1 && <HomeIcon size={32} />}
-                                    {i === 2 && <Key size={32} />}
-                                    {i === 3 && <Palette size={32} />}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        {[
+                            { label: 'Construction', icon: <HomeIcon size={20} /> },
+                            { label: 'Real Estate Sales', icon: <Star size={20} /> },
+                            { label: 'Rentals & Management', icon: <Shield size={20} /> },
+                            { label: 'Interior Design', icon: <LayoutIcon size={20} /> }
+                        ].map((item, i) => (
+                            <div key={i} className="flex flex-col items-center md:flex-row gap-4 group cursor-default">
+                                <div className="p-3 bg-navy text-gold group-hover:bg-gold group-hover:text-navy transition-colors duration-500 rounded-sm">
+                                    {item.icon}
                                 </div>
-                                <h3 className="text-xl font-display text-sand mb-4">{service.title}</h3>
-                                <p className="text-sm text-muted mb-6 leading-relaxed">{service.shortDesc}</p>
-                                <Link to={`/services#${service.slug}`} className="text-xs uppercase tracking-widest text-gold flex items-center gap-2 group/link">
-                                    Learn More <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                                </Link>
-                            </motion.div>
+                                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-sand/60 group-hover:text-gold transition-colors text-center md:text-left">
+                                    {item.label}
+                                </span>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -102,94 +98,76 @@ const Home = () => {
             {/* Featured Projects */}
             <section className="py-32 bg-navy">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex justify-between items-end mb-16">
-                        <div className="reveal">
-                            <span className="text-gold uppercase tracking-[0.2em] text-xs font-bold mb-4 block">Our Work</span>
-                            <h2 className="text-4xl md:text-6xl text-sand">Featured <span className="text-gold">Projects</span></h2>
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                        <div className="max-w-xl">
+                            <span className="text-gold uppercase tracking-[0.2em] text-[10px] font-bold mb-4 block">Curated Selection</span>
+                            <h2 className="text-4xl md:text-6xl font-display text-sand leading-tight">Featured <br /> <span className="text-gold italic">Developments</span></h2>
                         </div>
-                        <Link to="/projects" className="hidden md:flex items-center gap-3 text-sand/60 hover:text-gold transition-colors tracking-widest uppercase text-xs">
-                            View All Work <ArrowRight size={16} />
+                        <Link to="/projects" className="text-gold text-[10px] uppercase tracking-widest font-bold border-b border-gold/30 pb-2 hover:border-gold transition-all mb-2">
+                            Explore All Projects
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {projects.slice(0, 3).map((project, i) => (
-                            <ProjectCard key={project.id} project={project} index={i} />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {featuredProjects.map((project) => (
+                            <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
                 </div>
             </section>
 
             {/* Why Choose Us */}
-            <section className="py-32 bg-slate">
-                <div className="max-w-7xl mx-auto px-6 text-center mb-20">
-                    <span className="text-gold uppercase tracking-[0.2em] text-xs font-bold mb-4 block">The Advantage</span>
-                    <h2 className="text-4xl md:text-6xl text-sand mb-6">Why Choose <span className="text-gold italic">Housemate?</span></h2>
-                    <p className="text-muted max-w-2xl mx-auto">We provide a seamless property experience under one roof, combining local expertise with premium service.</p>
-                </div>
-                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-                    <div className="flex flex-col items-center text-center gap-6 p-8 bg-navy/30 rounded-lg">
-                        <div className="p-4 bg-gold/10 text-gold rounded-full"><Building2 size={30} /></div>
-                        <h4 className="text-xl font-display text-sand">Single Partner</h4>
-                        <p className="text-muted text-sm leading-relaxed">From design to build and sale, we manage the entire lifecycle of your property assets.</p>
+            <section className="py-32 bg-slate overflow-hidden relative">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div className="relative">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="relative z-10"
+                        >
+                            <img src="/assets/images/godrej_ivara_hero.png" alt="Why Housemate" className="rounded-sm shadow-2xl w-full" />
+                            <div className="absolute -bottom-10 -right-10 p-12 bg-gold text-navy hidden md:block">
+                                <p className="text-5xl font-display font-bold mb-2">10+</p>
+                                <p className="uppercase tracking-widest text-[10px] font-bold">Years of Trust</p>
+                            </div>
+                        </motion.div>
                     </div>
-                    <div className="flex flex-col items-center text-center gap-6 p-8 bg-navy/30 rounded-lg">
-                        <div className="p-4 bg-gold/10 text-gold rounded-full"><HomeIcon size={30} /></div>
-                        <h4 className="text-xl font-display text-sand">Pune Expertise</h4>
-                        <p className="text-muted text-sm leading-relaxed">Deep roots in Pune real estate ensures you get the most accurate locations and ROI guides.</p>
-                    </div>
-                    <div className="flex flex-col items-center text-center gap-6 p-8 bg-navy/30 rounded-lg">
-                        <div className="p-4 bg-gold/10 text-gold rounded-full"><Palette size={30} /></div>
-                        <h4 className="text-xl font-display text-sand">Transparency</h4>
-                        <p className="text-muted text-sm leading-relaxed">Clean documentation and clear communication are the pillars of every project we handle.</p>
+
+                    <div className="space-y-8">
+                        <span className="text-gold uppercase tracking-[0.2em] text-[10px] font-bold block">The Housemate Advantage</span>
+                        <h2 className="text-3xl md:text-5xl font-display text-sand leading-tight">Expertise across the <span className="text-gold italic">entire lifecycle</span> of property.</h2>
+                        <p className="text-muted text-sm md:text-base leading-relaxed">
+                            We provide a seamless 'Under One Roof' experience. From evaluating land and managing construction to designing premium interiors and securing the best sales or rental deals.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-sand/5">
+                            <div>
+                                <h4 className="text-sand font-bold text-sm tracking-widest uppercase mb-3">RERA Certified</h4>
+                                <p className="text-xs text-muted leading-relaxed">Complete legal transparency and compliance for every transaction.</p>
+                            </div>
+                            <div>
+                                <h4 className="text-sand font-bold text-sm tracking-widest uppercase mb-3">Pune Experts</h4>
+                                <p className="text-xs text-muted leading-relaxed">Hyper-local knowledge of Kharadi, Baner, and upcoming growth corridors.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-24 bg-gold">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
-                    <div className="max-w-2xl text-center md:text-left text-navy">
-                        <h2 className="text-3xl md:text-5xl font-display mb-4">Planning to Build, Buy, Sell or Rent in Pune?</h2>
-                        <p className="text-navy/70 uppercase tracking-widest text-xs font-bold">Let's make it happen together.</p>
-                    </div>
-                    <Link to="/contact" className="bg-navy text-sand px-12 py-5 font-bold uppercase tracking-widest hover:bg-blue-950 transition-colors shadow-2xl">
-                        Request a Callback
-                    </Link>
+            {/* CTA Banner */}
+            <section className="py-32 bg-gold text-navy text-center">
+                <div className="max-w-3xl mx-auto px-6">
+                    <h2 className="text-3xl md:text-5xl font-display mb-8">Ready to secure your <br /> dream property?</h2>
+                    <p className="font-bold uppercase tracking-[.3em] text-[10px] mb-12 opacity-80">Book a private consultation today</p>
+                    <button
+                        onClick={openContactModal}
+                        className="inline-flex bg-navy text-sand px-12 py-6 font-bold uppercase tracking-widest text-[10px] md:text-xs hover:scale-105 transition-transform shadow-xl"
+                    >
+                        Connect with Experts
+                    </button>
                 </div>
             </section>
-
         </div>
-    );
-};
-
-const ProjectCard = ({ project, index }) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className="group relative overflow-hidden bg-slate-900 aspect-[4/5] rounded-lg"
-        >
-            <img
-                src={project.heroImage}
-                alt={project.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 p-8 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <span className="text-gold text-[10px] uppercase tracking-widest mb-3 block">{project.tag}</span>
-                <h3 className="text-2xl font-display text-sand mb-2">{project.title}</h3>
-                <p className="text-sand/60 text-xs mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">{project.description}</p>
-                <Link
-                    to={`/projects/${project.id}`}
-                    className="text-white text-xs uppercase tracking-[0.2em] flex items-center gap-2 group/btn"
-                >
-                    View Details <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
-                </Link>
-            </div>
-        </motion.div>
     );
 };
 
