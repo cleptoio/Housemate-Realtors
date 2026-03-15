@@ -99,11 +99,11 @@ const ProjectDetail = () => {
                         >
                             Enquire & Schedule <Send size={14} />
                         </button>
+                    </motion.div>
                 </div>
+            </section>
         </div>
-      </section >
-    </div >
-  );
+    );
 };
 
 export default ProjectDetail;
